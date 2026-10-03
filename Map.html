@@ -1,0 +1,1749 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Campus Navigation</title>
+
+    <!-- Poppins Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        body {
+            font-family: "Poppins", Arial, sans-serif;
+        }
+
+
+        /* =========================================
+           PAGE 1 — START SCREEN
+        ========================================= */
+
+        #startPage {
+            width: 100%;
+            height: 100dvh;
+
+            background-image: url("Start.jpg");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            position: relative;
+            overflow: hidden;
+        }
+
+
+        #blurArea {
+            position: absolute;
+            inset: 0;
+
+            backdrop-filter: blur(10px);
+
+            transition: 1s;
+        }
+
+
+        #startPage.clear #blurArea {
+            backdrop-filter: blur(0);
+        }
+
+
+        /* =========================================
+           SCHOOL LOGO — START SCREEN
+        ========================================= */
+
+        .start-logo {
+            position: absolute;
+
+            top: 20%;
+            left: 50%;
+
+            transform: translateX(-50%);
+
+            width: 120px;
+            height: 120px;
+
+            object-fit: contain;
+
+            z-index: 5;
+
+            filter:
+                drop-shadow(0 0 8px rgba(255,255,255,0.8))
+                drop-shadow(0 0 18px rgba(0,170,255,0.7));
+
+            transition: 0.3s ease;
+        }
+
+
+        /* =========================================
+           START BUTTON
+        ========================================= */
+
+        .start-button {
+            position: relative;
+            z-index: 5;
+
+            width: 260px;
+            height: 120px;
+
+            border: none;
+            background: transparent;
+
+            color: white;
+
+            font-family: "Poppins", Arial, sans-serif;
+            font-size: 55px;
+            font-weight: 800;
+            letter-spacing: 8px;
+
+            cursor: pointer;
+
+            text-shadow:
+                0 0 10px #00aaff,
+                0 0 25px #0066ff;
+
+            transition:
+                transform 0.3s ease,
+                text-shadow 0.3s ease,
+                filter 0.15s ease;
+        }
+
+
+        .start-button:hover {
+            transform: scale(1.08);
+
+            text-shadow:
+                0 0 15px #00ffff,
+                0 0 35px #0066ff;
+        }
+
+
+        /* =========================================
+           START CLICK ANIMATION
+        ========================================= */
+
+        .start-button:active {
+            transform: scale(0.88);
+
+            filter: brightness(1.5);
+
+            text-shadow:
+                0 0 20px #00ffff,
+                0 0 45px #0066ff;
+
+            transition: 0.08s;
+        }
+
+
+        .start-button:active::after {
+            content: "";
+
+            position: absolute;
+
+            top: 50%;
+            left: 50%;
+
+            width: 20px;
+            height: 20px;
+
+            border: 2px solid #00ffff;
+
+            border-radius: 50%;
+
+            transform: translate(-50%, -50%);
+
+            pointer-events: none;
+
+            animation: startRipple 0.5s ease-out;
+        }
+
+
+        @keyframes startRipple {
+
+            0% {
+                width: 20px;
+                height: 20px;
+
+                opacity: 1;
+            }
+
+            100% {
+                width: 300px;
+                height: 300px;
+
+                opacity: 0;
+            }
+
+        }
+
+
+        /* =========================================
+           LOADING SCREEN
+        ========================================= */
+
+        #loadingScreen {
+            position: absolute;
+
+            inset: 0;
+
+            z-index: 10;
+
+            display: none;
+
+            flex-direction: column;
+
+            justify-content: center;
+            align-items: center;
+
+            background: rgba(0, 0, 0, 0.35);
+
+            color: white;
+        }
+
+
+        #loadingStatus {
+            margin-bottom: 15px;
+
+            color: white;
+
+            font-size: 14px;
+
+            font-weight: 700;
+
+            letter-spacing: 3px;
+
+            text-align: center;
+
+            text-shadow:
+                0 0 8px #00aaff,
+                0 0 15px #0066ff;
+        }
+
+
+        .loading-container {
+            width: 320px;
+
+            max-width: 75%;
+
+            text-align: center;
+        }
+
+
+        .loading-bar {
+            width: 100%;
+
+            height: 14px;
+
+            background: rgba(255,255,255,0.2);
+
+            border: 2px solid rgba(255,255,255,0.8);
+
+            border-radius: 4px;
+
+            overflow: hidden;
+
+            box-shadow:
+                0 0 10px rgba(0,170,255,0.5);
+        }
+
+
+        #loadingProgress {
+            width: 0%;
+
+            height: 100%;
+
+            background: linear-gradient(
+                90deg,
+                #0066ff,
+                #00aaff,
+                #00ffff
+            );
+
+            transition: width 0.08s linear;
+
+            box-shadow:
+                0 0 12px #00aaff;
+        }
+
+
+        #loadingPercent {
+            margin-top: 8px;
+
+            color: white;
+
+            font-size: 11px;
+
+            font-weight: 600;
+
+            letter-spacing: 2px;
+        }
+
+
+        /* =========================================
+           PAGE 2 — MAIN WEBSITE
+        ========================================= */
+
+        #mainPage {
+            display: none;
+
+            width: 100%;
+            height: 100dvh;
+
+            background-image: url("main-background.jpg");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+
+            overflow: hidden;
+
+            position: relative;
+        }
+
+
+        /* =========================================
+           HAMBURGER MENU BUTTON
+        ========================================= */
+
+        .menu-toggle {
+            position: fixed;
+
+            top: 15px;
+            left: 15px;
+
+            width: 45px;
+            height: 45px;
+
+            border: none;
+            border-radius: 8px;
+
+            background: rgba(255, 255, 255, 0.9);
+
+            display: flex;
+            flex-direction: column;
+
+            justify-content: center;
+            align-items: center;
+
+            gap: 5px;
+
+            cursor: pointer;
+
+            z-index: 20;
+
+            box-shadow: 0 3px 12px rgba(0,0,0,0.2);
+
+            transition: 0.25s;
+        }
+
+
+        .menu-toggle:hover {
+            transform: scale(1.05);
+        }
+
+
+        .menu-toggle span {
+            display: block;
+
+            width: 25px;
+            height: 3px;
+
+            background: #0754b8;
+
+            border-radius: 5px;
+
+            transition: 0.3s;
+        }
+
+
+        /* =========================================
+           SIDEBAR
+        ========================================= */
+
+        .sidebar {
+            position: fixed;
+
+            left: -110px;
+            top: 0;
+
+            width: 110px;
+            height: 100dvh;
+
+            background-image: url("side.jpg");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+
+            padding: 20px 7px;
+
+            display: flex;
+            flex-direction: column;
+
+            box-shadow: 5px 0 20px rgba(0,0,0,0.15);
+
+            z-index: 15;
+
+            transition: left 0.3s ease;
+        }
+
+
+        .sidebar.open {
+            left: 0;
+        }
+
+
+        /* =========================================
+           MOVE CONTENT WHEN SIDEBAR IS OPEN
+        ========================================= */
+
+        .content {
+            transition: left 0.3s ease, width 0.3s ease;
+        }
+
+
+        .sidebar.open ~ .content {
+            left: 110px;
+            width: calc(100% - 110px);
+        }
+
+
+        /* =========================================
+           SIDEBAR SCHOOL LOGO
+        ========================================= */
+
+        .sidebar-logo {
+            width: 55px;
+            height: 55px;
+
+            object-fit: contain;
+
+            display: block;
+
+            margin: 0 auto 8px auto;
+
+            filter:
+                drop-shadow(0 0 5px rgba(0,120,255,0.5));
+        }
+
+
+        /* =========================================
+           LOGO
+        ========================================= */
+
+        .logo {
+            text-align: center;
+
+            margin-top: 55px;
+
+            margin-bottom: 25px;
+        }
+
+
+        .logo h1 {
+            font-family: "Poppins", Arial, sans-serif;
+
+            font-size: 15px;
+            font-weight: 800;
+
+            letter-spacing: 0.5px;
+
+            color: #0754b8;
+        }
+
+
+        .logo p {
+            font-size: 6px;
+            font-weight: 500;
+
+            color: #777;
+
+            margin-top: 5px;
+
+            line-height: 9px;
+        }
+
+
+        /* =========================================
+           MENU
+        ========================================= */
+
+        .menu {
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 6px;
+        }
+
+
+        .menu button {
+            width: 100%;
+
+            padding: 10px 5px;
+
+            border: none;
+
+            border-radius: 7px;
+
+            background: transparent;
+
+            text-align: left;
+
+            font-family: "Poppins", Arial, sans-serif;
+
+            font-size: 9px;
+
+            font-weight: 600;
+
+            color: #333;
+
+            cursor: pointer;
+
+            transition: 0.25s;
+
+            line-height: 12px;
+        }
+
+
+        .menu button:hover {
+            background: #e7f1ff;
+
+            color: #0754b8;
+
+            transform: translateX(3px);
+        }
+
+
+        .menu button.active {
+            background: #0754b8;
+
+            color: white;
+        }
+
+
+        /* =========================================
+           CONTENT
+        ========================================= */
+
+        .content {
+            position: absolute;
+
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+
+            width: 100%;
+            height: 100dvh;
+
+            padding: 20px;
+
+            padding-top: 75px;
+
+            overflow: hidden;
+
+            min-width: 0;
+
+            background-image: url("front.jpg");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+
+        .content h2 {
+            text-align: center;
+        }
+
+
+        .content > .section > p {
+            text-align: center;
+        }
+
+
+        .box {
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+
+        .content h2 {
+            font-family: "Poppins", Arial, sans-serif;
+
+            font-size: 28px;
+
+            font-weight: 800;
+
+            color: #0754b8;
+
+            letter-spacing: 1px;
+
+            white-space: normal;
+
+            max-width: 100%;
+
+            overflow: visible;
+
+            text-overflow: clip;
+
+            line-height: 1.1;
+        }
+
+
+        .content p {
+            margin-top: 8px;
+
+            font-family: "Poppins", Arial, sans-serif;
+
+            font-size: 13px;
+
+            font-weight: 400;
+
+            color: #555;
+
+            max-width: 100%;
+        }
+
+
+        /* =========================================
+           CONTENT BOX
+        ========================================= */
+
+        .box {
+            margin-top: 20px;
+
+            width: 100%;
+
+            max-width: 800px;
+
+            padding: 20px;
+
+            background: rgba(255,255,255,0.9);
+
+            border-radius: 15px;
+
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+
+            overflow: hidden;
+        }
+
+
+        .box h3 {
+            font-family: "Poppins", Arial, sans-serif;
+
+            font-size: 17px;
+
+            font-weight: 700;
+
+            color: #0754b8;
+
+            text-align: left;
+        }
+
+
+        .box p {
+            text-align: left;
+        }
+
+
+        /* =========================================
+           CAMPUS MAP
+        ========================================= */
+
+        .campus-map {
+            width: 100%;
+            max-width: 100%;
+
+            height: auto;
+
+            display: block;
+
+            border-radius: 10px;
+
+            margin-top: 10px;
+
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+
+        /* =========================================
+           DESTINATION BUTTONS
+        ========================================= */
+
+        .box button {
+            display: block;
+
+            width: 100%;
+
+            padding: 12px;
+
+            margin-top: 8px;
+
+            border: none;
+
+            border-radius: 8px;
+
+            background: #0754b8;
+
+            color: white;
+
+            font-family: "Poppins", Arial, sans-serif;
+
+            font-size: 12px;
+
+            font-weight: 600;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+        }
+
+
+        .box button:hover {
+            background: #06449a;
+
+            transform: translateY(-2px);
+        }
+
+
+        /* =========================================
+           ABOUT GALLERY
+        ========================================= */
+
+        .about-gallery {
+            max-height: 60vh;
+
+            overflow-y: auto;
+
+            padding-right: 6px;
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 10px;
+        }
+
+
+        /* SCROLLBAR */
+
+        .about-gallery::-webkit-scrollbar {
+            width: 6px;
+        }
+
+
+        .about-gallery::-webkit-scrollbar-track {
+            background: #e5e5e5;
+
+            border-radius: 10px;
+        }
+
+
+        .about-gallery::-webkit-scrollbar-thumb {
+            background: #0754b8;
+
+            border-radius: 10px;
+        }
+
+
+        /* =========================================
+           ABOUT IMAGES
+        ========================================= */
+
+        .about-gallery img {
+            width: 100%;
+
+            height: auto;
+
+            display: block;
+
+            border-radius: 12px;
+
+            object-fit: contain;
+
+            cursor: zoom-in;
+        }
+
+
+        /* =========================================
+           ABOUT PARAGRAPHS
+        ========================================= */
+
+        .about-text {
+            padding: 2px 3px 15px 3px;
+
+            margin-bottom: 5px;
+        }
+
+
+        .about-text p {
+            margin-top: 0;
+
+            text-align: left;
+
+            line-height: 1.6;
+        }
+
+
+        /* =========================================
+           FULLSCREEN IMAGE VIEWER
+        ========================================= */
+
+        .image-viewer {
+            display: none;
+
+            position: fixed;
+
+            inset: 0;
+
+            z-index: 100;
+
+            width: 100%;
+            height: 100dvh;
+
+            justify-content: center;
+            align-items: center;
+
+            padding: 20px;
+
+            background: rgba(0, 0, 0, 0.45);
+
+            backdrop-filter: blur(12px);
+
+            -webkit-backdrop-filter: blur(12px);
+
+            cursor: zoom-out;
+        }
+
+
+        .image-viewer.active {
+            display: flex;
+        }
+
+
+        .image-viewer img {
+            max-width: 95%;
+
+            max-height: 95%;
+
+            width: auto;
+            height: auto;
+
+            object-fit: contain;
+
+            border-radius: 10px;
+
+            box-shadow:
+                0 0 30px rgba(0,0,0,0.6);
+
+            cursor: zoom-out;
+        }
+
+
+        /* =========================================
+           SECTIONS
+        ========================================= */
+
+        .section {
+            display: none;
+        }
+
+
+        .section.active {
+            display: block;
+        }
+
+
+        /* =========================================
+           TV / LARGE SCREEN
+        ========================================= */
+
+        @media(min-width: 1200px) {
+
+            .box {
+                max-width: 100%;
+                width: 100%;
+
+                padding: 15px;
+            }
+
+
+            .campus-map {
+                width: 100%;
+                max-width: 100%;
+
+                height: calc(100dvh - 210px);
+
+                object-fit: contain;
+            }
+
+
+            .about-gallery {
+                max-height: 65vh;
+            }
+
+        }
+
+
+        /* =========================================
+           EXTRA SMALL PHONES
+        ========================================= */
+
+        @media(max-width: 400px) {
+
+            .sidebar {
+                width: 85px;
+
+                left: -85px;
+
+                padding: 15px 5px;
+            }
+
+
+            .sidebar.open {
+                left: 0;
+            }
+
+
+            .sidebar.open ~ .content {
+                left: 85px;
+                width: calc(100% - 85px);
+            }
+
+
+            .content {
+                width: 100%;
+
+                padding: 12px;
+
+                padding-top: 70px;
+
+                background-image: url("front.jpg");
+                background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;
+            }
+
+
+            .menu-toggle {
+                width: 40px;
+                height: 40px;
+
+                top: 12px;
+                left: 12px;
+            }
+
+
+            .menu-toggle span {
+                width: 22px;
+                height: 3px;
+            }
+
+
+            .logo {
+                margin-top: 50px;
+
+                margin-bottom: 20px;
+            }
+
+
+            .logo h1 {
+                font-size: 11px;
+            }
+
+
+            .logo p {
+                font-size: 5px;
+
+                line-height: 8px;
+            }
+
+
+            .sidebar-logo {
+                width: 45px;
+                height: 45px;
+            }
+
+
+            .menu {
+                gap: 5px;
+            }
+
+
+            .menu button {
+                padding: 8px 4px;
+
+                font-size: 8px;
+
+                line-height: 11px;
+            }
+
+
+            .content h2 {
+                font-size: 21px;
+
+                white-space: normal;
+
+                overflow: visible;
+
+                text-overflow: clip;
+
+                line-height: 1.1;
+            }
+
+
+            .content p {
+                font-size: 10px;
+            }
+
+
+            .box {
+                padding: 12px;
+
+                margin-top: 12px;
+            }
+
+
+            .box h3 {
+                font-size: 14px;
+            }
+
+
+            .box button {
+                padding: 9px;
+
+                font-size: 9px;
+            }
+
+
+            .campus-map {
+                width: 100%;
+
+                height: auto;
+
+                margin-top: 8px;
+            }
+
+
+            .loading-container {
+                max-width: 80%;
+            }
+
+
+            #loadingStatus {
+                font-size: 11px;
+
+                letter-spacing: 2px;
+            }
+
+
+            #loadingPercent {
+                font-size: 9px;
+            }
+
+
+            .start-logo {
+                width: 85px;
+                height: 85px;
+
+                top: 19%;
+            }
+
+
+            /* ABOUT — MOBILE */
+
+            .about-gallery {
+                max-height: 58vh;
+
+                gap: 9px;
+
+                padding-right: 4px;
+            }
+
+
+            .about-gallery img {
+                width: 100%;
+
+                height: auto;
+
+                border-radius: 9px;
+            }
+
+
+            .about-text p {
+                font-size: 10px;
+
+                line-height: 1.5;
+            }
+
+
+            /* FULLSCREEN IMAGE — MOBILE */
+
+            .image-viewer {
+                padding: 10px;
+            }
+
+
+            .image-viewer img {
+                max-width: 98%;
+
+                max-height: 95%;
+
+                border-radius: 8px;
+            }
+
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+
+<!-- =========================================
+     PAGE 1
+========================================= -->
+
+<div id="startPage">
+
+    <div id="blurArea"></div>
+
+
+    <!-- SCHOOL LOGO — START SCREEN -->
+
+    <img
+        src="school-logo.png"
+        alt="School Logo"
+        class="start-logo"
+    >
+
+
+    <!-- LOADING SCREEN -->
+
+    <div id="loadingScreen">
+
+        <div id="loadingStatus">
+            UNDERWAY PLEASE WAIT....
+        </div>
+
+
+        <div class="loading-container">
+
+            <div class="loading-bar">
+
+                <div id="loadingProgress"></div>
+
+            </div>
+
+
+            <div id="loadingPercent">
+                0%
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <button class="start-button" onclick="startNavigation()">
+        START
+    </button>
+
+</div>
+
+
+
+<!-- =========================================
+     PAGE 2
+========================================= -->
+
+<div id="mainPage">
+
+
+    <!-- HAMBURGER BUTTON -->
+
+    <button class="menu-toggle" onclick="toggleSidebar()">
+
+        <span></span>
+        <span></span>
+        <span></span>
+
+    </button>
+
+
+
+    <!-- SIDEBAR -->
+
+    <div class="sidebar" id="sidebar">
+
+        <div class="logo">
+
+            <!-- SCHOOL LOGO — SIDEBAR -->
+
+            <img
+                src="school-logo.png"
+                alt="School Logo"
+                class="sidebar-logo"
+            >
+
+            <h1>CAMPUS NAV</h1>
+
+            <p>
+                QR-BASED NAVIGATION SYSTEM
+            </p>
+
+        </div>
+
+
+        <div class="menu">
+
+            <button
+                class="active"
+                onclick="showSection('home', this)">
+
+                Home
+
+            </button>
+
+
+            <button
+                onclick="showSection('destination', this)">
+
+                Destination
+
+            </button>
+
+
+            <button
+                onclick="showSection('map', this)">
+
+                Map
+
+            </button>
+
+
+            <button
+                onclick="showSection('qr', this)">
+
+                Scan QR
+
+            </button>
+
+
+            <button
+                onclick="showSection('about', this)">
+
+                About
+
+            </button>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- CONTENT -->
+
+    <div class="content">
+
+
+        <!-- HOME -->
+
+        <div id="home" class="section active">
+
+            <h2>WELCOME</h2>
+
+            <p>
+                Welcome to the Campus Navigation System.
+            </p>
+
+
+            <div class="box">
+
+                <h3>
+                    Campus Navigation
+                </h3>
+
+                <p>
+                    Easily find buildings, rooms, and
+                    important locations around the campus.
+                </p>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- DESTINATION -->
+
+        <div id="destination" class="section">
+
+            <h2>CHOOSE DESTINATION</h2>
+
+            <p>
+                Select where you want to go.
+            </p>
+
+
+            <div class="box">
+
+                <button>
+                    Library
+                </button>
+
+                <button>
+                    ICT Laboratory
+                </button>
+
+                <button>
+                    Main Building
+                </button>
+
+                <button>
+                    Canteen
+                </button>
+
+                <button>
+                    Registrar
+                </button>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- MAP -->
+
+        <div id="map" class="section">
+
+            <h2>CAMPUS MAP</h2>
+
+            <p>
+                Your campus map will appear here.
+            </p>
+
+
+            <div class="box">
+
+                <h3>
+                    CAMPUS MAP
+                </h3>
+
+                <img
+                    src="map.jpg"
+                    alt="Campus Map"
+                    class="campus-map"
+                >
+
+            </div>
+
+        </div>
+
+
+
+        <!-- QR -->
+
+        <div id="qr" class="section">
+
+            <h2>SCAN QR CODE</h2>
+
+            <p>
+                Scan a QR code to identify your current
+                campus location.
+            </p>
+
+
+            <div class="box">
+
+                <h3>
+                    QR SCANNER
+                </h3>
+
+                <p>
+                    QR scanner will be added here later.
+                </p>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =========================================
+             ABOUT
+        ========================================= -->
+
+        <div id="about" class="section">
+
+            <h2>ABOUT</h2>
+
+            <p>
+                QR-Based Campus Navigation System
+            </p>
+
+
+            <div class="box">
+
+                <div class="about-gallery">
+
+
+                    <!-- IMAGE 1 -->
+
+                    <img
+                        src="image1.jpg"
+                        alt="About Image 1"
+                    >
+
+
+                    <!-- PARAGRAPH 1 -->
+
+                    <div class="about-text">
+
+                        <p>
+                            This image shows the first part
+                            of our QR-Based Campus Navigation
+                            System project.
+                        </p>
+
+                    </div>
+
+
+
+                    <!-- IMAGE 2 -->
+
+                    <img
+                        src="image2.jpg"
+                        alt="About Image 2"
+                    >
+
+
+                    <!-- PARAGRAPH 2 -->
+
+                    <div class="about-text">
+
+                        <p>
+                            The system is designed to help
+                            students and visitors easily find
+                            important locations around the campus.
+                        </p>
+
+                    </div>
+
+
+
+                    <!-- IMAGE 3 -->
+
+                    <img
+                        src="image3.jpg"
+                        alt="About Image 3"
+                    >
+
+
+                    <!-- PARAGRAPH 3 -->
+
+                    <div class="about-text">
+
+                        <p>
+                            QR codes can be used to provide
+                            quick access to information about
+                            different areas of the school.
+                        </p>
+
+                    </div>
+
+
+
+                    <!-- IMAGE 4 -->
+
+                    <img
+                        src="image4.jpg"
+                        alt="About Image 4"
+                    >
+
+
+                    <!-- PARAGRAPH 4 -->
+
+                    <div class="about-text">
+
+                        <p>
+                            The campus map helps users understand
+                            the location of buildings, rooms,
+                            and other important areas.
+                        </p>
+
+                    </div>
+
+
+
+                    <!-- IMAGE 5 -->
+
+                    <img
+                        src="image5.jpg"
+                        alt="About Image 5"
+                    >
+
+
+                    <!-- PARAGRAPH 5 -->
+
+                    <div class="about-text">
+
+                        <p>
+                            This project aims to make campus
+                            navigation easier, faster, and more
+                            convenient for new students and visitors.
+                        </p>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================================
+     FULLSCREEN IMAGE VIEWER
+========================================= -->
+
+<div
+    class="image-viewer"
+    id="imageViewer"
+    onclick="closeImage()"
+>
+
+    <img
+        id="fullscreenImage"
+        src=""
+        alt="Fullscreen Image"
+    >
+
+</div>
+
+
+
+<script>
+
+
+/* =========================================
+   START BUTTON
+========================================= */
+
+function startNavigation() {
+
+    const startPage =
+        document.getElementById("startPage");
+
+    const mainPage =
+        document.getElementById("mainPage");
+
+    const loadingScreen =
+        document.getElementById("loadingScreen");
+
+    const startButton =
+        document.querySelector(".start-button");
+
+    const loadingProgress =
+        document.getElementById("loadingProgress");
+
+    const loadingPercent =
+        document.getElementById("loadingPercent");
+
+    const loadingStatus =
+        document.getElementById("loadingStatus");
+
+
+    /* Prevent clicking START multiple times */
+
+    startButton.style.display = "none";
+
+
+    /* Show loading screen */
+
+    loadingScreen.style.display = "flex";
+
+
+    /* Clear blur */
+
+    startPage.classList.add("clear");
+
+
+    let progress = 0;
+
+
+    /* Loading bar animation */
+
+    const loading = setInterval(function() {
+
+        progress++;
+
+        loadingProgress.style.width =
+            progress + "%";
+
+        loadingPercent.textContent =
+            progress + "%";
+
+
+        /* Loading finished */
+
+        if (progress >= 100) {
+
+            clearInterval(loading);
+
+
+            /* Change loading message */
+
+            loadingStatus.textContent =
+                "Our adventure finally begins now";
+
+
+            loadingPercent.textContent =
+                "100%";
+
+
+            /* Wait a little before opening */
+
+            setTimeout(function() {
+
+                startPage.style.display =
+                    "none";
+
+                mainPage.style.display =
+                    "block";
+
+            }, 1000);
+
+        }
+
+    }, 25);
+
+}
+
+
+
+/* =========================================
+   HAMBURGER SIDEBAR
+========================================= */
+
+function toggleSidebar() {
+
+    const sidebar =
+        document.getElementById("sidebar");
+
+    sidebar.classList.toggle("open");
+
+}
+
+
+
+/* =========================================
+   SIDEBAR NAVIGATION
+========================================= */
+
+function showSection(sectionID, button) {
+
+    const sections =
+        document.querySelectorAll(".section");
+
+
+    sections.forEach(function(section) {
+
+        section.classList.remove("active");
+
+    });
+
+
+    document
+        .getElementById(sectionID)
+        .classList.add("active");
+
+
+    const buttons =
+        document.querySelectorAll(".menu button");
+
+
+    buttons.forEach(function(btn) {
+
+        btn.classList.remove("active");
+
+    });
+
+
+    button.classList.add("active");
+
+}
+
+
+
+/* =========================================
+   FULLSCREEN IMAGE VIEWER
+========================================= */
+
+const aboutImages =
+    document.querySelectorAll(".about-gallery img");
+
+const imageViewer =
+    document.getElementById("imageViewer");
+
+const fullscreenImage =
+    document.getElementById("fullscreenImage");
+
+
+aboutImages.forEach(function(image) {
+
+    image.addEventListener("click", function() {
+
+        fullscreenImage.src = this.src;
+
+        imageViewer.classList.add("active");
+
+    });
+
+});
+
+
+function closeImage() {
+
+    imageViewer.classList.remove("active");
+
+    fullscreenImage.src = "";
+
+}
+
+
+</script>
+
+
+</body>
+</html>
